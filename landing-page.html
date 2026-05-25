@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>John Mark B. Ladera | Computer Engineer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #070707;
+      --surface: #0f1012;
+      --card: #14151a;
+      --card-2: #101114;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.18);
+      --text: #f7f4ed;
+      --muted: #9b9b9b;
+      --dim: #5f6066;
+      --gold: #c9a86a;
+      --gold-soft: rgba(201, 168, 106, 0.12);
+      --gold-glow: rgba(201, 168, 106, 0.28);
+      --teal: #56d6c2;
+      --blue: #6aa7ff;
+      --container: 1160px;
+      --font-heading: "Space Grotesk", sans-serif;
+      --font-body: "Inter", sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* LOADER */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        radial-gradient(circle at center, rgba(201, 168, 106, 0.08), transparent 36%),
+        #040405;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-box {
+      text-align: center;
+      display: grid;
+      place-items: center;
+      gap: 24px;
+    }
+
+    .loader-mark {
+      font-family: var(--font-heading);
+      font-size: clamp(64px, 10vw, 110px);
+      font-weight: 800;
+      letter-spacing: -0.08em;
+      color: var(--gold);
+      opacity: 0;
+      transform: scale(0.9);
+      animation: loaderMark 1s ease forwards;
+    }
+
+    .loader-line {
+      width: 220px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeIn 0.45s ease 0.25s forwards;
+    }
+
+    .loader-line span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--gold);
+      animation: loaderLine 1.1s ease 0.35s forwards;
+    }
+
+    .loader-text {
+      font-size: 11px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      opacity: 0;
+      animation: fadeIn 0.45s ease 0.35s forwards;
+    }
+
+    @keyframes loaderMark {
+      0% {
+        opacity: 0;
+        transform: scale(0.86);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1.03);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes loaderLine {
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* HEADER */
+    .header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1000;
+      padding: 28px 0;
+      transition: 0.35s ease;
+    }
+
+    .header.scrolled {
+      padding: 17px 0;
+      background: rgba(7, 7, 7, 0.82);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 14px var(--gold-glow);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.24s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      color: var(--gold) !important;
+      border: 1px solid rgba(201, 168, 106, 0.32);
+      padding: 10px 18px;
+      border-radius: 999px;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold-soft);
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      padding: 120px 0 100px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      z-index: -4;
+      background: url("/images/profile.jpg") right center / cover no-repeat;
+      animation: heroZoom 18s ease-in-out infinite alternate;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        linear-gradient(105deg, rgba(7,7,7,1) 34%, rgba(7,7,7,0.78) 58%, rgba(7,7,7,0.18) 100%),
+        linear-gradient(to top, rgba(7,7,7,0.98) 0%, rgba(7,7,7,0.45) 35%, transparent 66%);
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.024) 1px, transparent 1px);
+      background-size: 82px 82px;
+      mask-image: linear-gradient(to right, transparent, black 42%, transparent 92%);
+    }
+
+    .hero-glow {
+      position: absolute;
+      left: -120px;
+      bottom: -180px;
+      width: 760px;
+      height: 760px;
+      z-index: -1;
+      background: radial-gradient(circle, rgba(201,168,106,0.08), transparent 66%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 760px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px 8px 10px;
+      border-radius: 999px;
+      background: rgba(201, 168, 106, 0.07);
+      border: 1px solid rgba(201, 168, 106, 0.24);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 34px;
+      opacity: 0;
+      animation: slideUp 0.75s ease 0.85s forwards;
+    }
+
+    .hero-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(54px, 8.5vw, 118px);
+      line-height: 0.88;
+      font-weight: 800;
+      letter-spacing: -0.07em;
+      margin-bottom: 26px;
+      opacity: 0;
+      animation: slideUp 0.75s ease 1s forwards;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero-role {
+      min-height: 44px;
+      font-family: var(--font-heading);
+      font-size: clamp(20px, 2.6vw, 34px);
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      margin-bottom: 26px;
+      opacity: 0;
+      animation: slideUp 0.75s ease 1.15s forwards;
+    }
+
+    .cursor {
+      color: var(--gold);
+      animation: blink 0.85s infinite;
+    }
+
+    .hero p {
+      max-width: 535px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.86;
+      font-size: 16px;
+      margin-bottom: 42px;
+      opacity: 0;
+      animation: slideUp 0.75s ease 1.3s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      opacity: 0;
+      animation: slideUp 0.75s ease 1.45s forwards;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 29px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease, color 0.24s ease;
+    }
+
+    .btn-primary {
+      color: #090806;
+      background: var(--gold);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 42px rgba(201, 168, 106, 0.28);
+    }
+
+    .btn-ghost {
+      color: var(--muted);
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: rgba(201, 168, 106, 0.35);
+      transform: translateY(-3px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      right: 52px;
+      bottom: 42px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeIn 0.9s ease 2s forwards;
+    }
+
+    .hero-scroll span {
+      color: var(--dim);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 64px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+
+    /* SECTION BASE */
+    section {
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .surface-section {
+      background: var(--surface);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(62px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.12s; }
+    .delay-2 { transition-delay: 0.24s; }
+    .delay-3 { transition-delay: 0.36s; }
+    .delay-4 { transition-delay: 0.48s; }
+    .delay-5 { transition-delay: 0.6s; }
+    .delay-6 { transition-delay: 0.72s; }
+
+    .sec-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 42px;
+      padding-bottom: 34px;
+      margin-bottom: 64px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sec-label {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .sec-label::before {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .sec-head h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(34px, 4.6vw, 60px);
+      line-height: 0.98;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      max-width: 520px;
+    }
+
+    .sec-desc {
+      flex: 0 0 360px;
+      color: var(--muted);
+      line-height: 1.86;
+      font-size: 15px;
+      font-weight: 300;
+      padding-top: 6px;
+    }
+
+    /* PROFILE */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .profile-card {
+      position: relative;
+      min-height: 300px;
+      padding: 42px 36px;
+      background: var(--card);
+      overflow: hidden;
+      transition: background 0.28s ease, transform 0.28s ease;
+    }
+
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+
+    .profile-card:hover {
+      background: #18191f;
+      transform: translateY(-4px);
+    }
+
+    .profile-card:hover::before {
+      opacity: 1;
+    }
+
+    .profile-num {
+      color: var(--gold);
+      font-family: var(--font-heading);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      margin-bottom: 20px;
+    }
+
+    .profile-card h3 {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+    }
+
+    .profile-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.82;
+      font-weight: 300;
+    }
+
+    .profile-icon {
+      position: absolute;
+      right: 26px;
+      bottom: 22px;
+      color: var(--gold);
+      opacity: 0.05;
+      font-size: 58px;
+      font-family: var(--font-heading);
+      font-weight: 800;
+    }
+
+    /* EDUCATION / EXPERIENCE LISTS */
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 145px 1fr;
+      gap: 48px;
+      padding: 38px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      transition: background 0.28s ease;
+    }
+
+    .timeline-row:last-child {
+      border-bottom: none;
+    }
+
+    .timeline-row::after {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+
+    .timeline-row:hover::after {
+      opacity: 1;
+    }
+
+    .timeline-date {
+      color: var(--dim);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      line-height: 1.55;
+      text-transform: uppercase;
+      padding-top: 8px;
+    }
+
+    .timeline-body {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .logo-box {
+      flex: 0 0 58px;
+      width: 58px;
+      height: 58px;
+      border-radius: 15px;
+      background: #ffffff;
+      padding: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .timeline-row:hover .logo-box {
+      transform: scale(1.07) rotate(-3deg);
+      box-shadow: 0 12px 28px rgba(201, 168, 106, 0.18);
+    }
+
+    .timeline-text h3 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      line-height: 1.18;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .timeline-text p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      font-weight: 300;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(201, 168, 106, 0.22);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .project-card {
+      min-height: 392px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 82% 12%, rgba(201, 168, 106, 0.08), transparent 58%);
+      opacity: 0;
+      transition: opacity 0.28s ease;
+      pointer-events: none;
+    }
+
+    .project-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(201, 168, 106, 0.35);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-num {
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .project-card h3 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      line-height: 1.18;
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      line-height: 1.78;
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      color: var(--dim);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .chip:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .project-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .project-links a {
+      position: relative;
+      width: fit-content;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(201, 168, 106, 0.22);
+      background: rgba(201, 168, 106, 0.04);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .project-links a::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(201, 168, 106, 0.14), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .project-links a:hover {
+      transform: translateX(6px);
+      border-color: rgba(201, 168, 106, 0.48);
+      background: rgba(201, 168, 106, 0.08);
+      box-shadow: 0 10px 28px rgba(201, 168, 106, 0.12);
+    }
+
+    .project-links a:hover::before {
+      transform: translateX(100%);
+    }
+
+    .seminars-list {
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .seminar-item {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 32px;
+      background: var(--card);
+      padding: 30px 34px;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+
+    .seminar-item:hover {
+      background: #18191f;
+      transform: translateX(6px);
+    }
+
+    .seminar-title h3 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .seminar-title p,
+    .seminar-speaker p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .seminar-speaker strong {
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .skill-card {
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 36px 32px;
+      transition: border-color 0.24s ease, transform 0.24s ease;
+    }
+
+    .skill-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-4px);
+    }
+
+    .skill-label {
+      color: var(--teal);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .skill-card h3 {
+      font-family: var(--font-heading);
+      font-size: 23px;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+    }
+
+    .skill-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.82;
+      font-weight: 300;
+    }
+
+    /* CONTACT */
+    .contact-section {
+      min-height: 62vh;
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .contact-section::before {
+      content: "";
+      position: absolute;
+      width: 840px;
+      height: 440px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse, rgba(201, 168, 106, 0.07), transparent 68%);
+      pointer-events: none;
+    }
+
+    .contact-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .contact-copy h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(42px, 5.4vw, 76px);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+      margin-bottom: 24px;
+    }
+
+    .contact-copy h2 span {
+      color: var(--gold);
+    }
+
+    .contact-copy p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.85;
+      font-weight: 300;
+      max-width: 420px;
+    }
+
+    .contact-links {
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px 28px;
+      transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+    }
+
+    .contact-link:hover {
+      transform: translateX(6px);
+      border-color: rgba(201, 168, 106, 0.35);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    .contact-label {
+      color: var(--dim);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .contact-value {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+    }
+
+    .contact-arrow {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      color: var(--gold);
+      display: grid;
+      place-items: center;
+      transition: background 0.24s ease, border-color 0.24s ease;
+    }
+
+    .contact-link:hover .contact-arrow {
+      background: var(--gold-soft);
+      border-color: var(--gold);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--dim);
+      font-size: 13px;
+    }
+
+    .footer-logo {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-badge span {
+      color: var(--gold);
+    }
+
+    /* ANIMATIONS */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes heroZoom {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.06);
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 4px var(--gold);
+        opacity: 1;
+      }
+      50% {
+        box-shadow: 0 0 14px var(--gold);
+        opacity: 0.72;
+      }
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes scrollLine {
+      0%, 100% {
+        transform: scaleY(1);
+        opacity: 0.55;
+      }
+      50% {
+        transform: scaleY(0.52);
+        opacity: 1;
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .seminar-item,
+      .sec-head,
+      .contact-inner {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .sec-desc {
+        flex: unset;
+      }
+
+      .profile-grid,
+      .projects-grid,
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-row {
+        grid-template-columns: 100px 1fr;
+        gap: 28px;
+      }
+
+      .contact-inner {
+        gap: 48px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100% - 28px, var(--container));
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        align-items: flex-end;
+        padding-bottom: 78px;
+      }
+
+      .hero-img {
+        background-position: center top;
+      }
+
+      .hero-overlay {
+        background:
+          linear-gradient(to bottom, rgba(7,7,7,0.24), rgba(7,7,7,0.98)),
+          linear-gradient(to top, rgba(7,7,7,0.98), transparent 60%);
+      }
+
+      .hero-scroll {
+        display: none;
+      }
+
+      section {
+        padding: 82px 0;
+      }
+
+      .timeline-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .timeline-body {
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .contact-link {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader">
+    <div class="loader-box">
+      <div class="loader-mark">JML</div>
+      <div class="loader-line"><span></span></div>
+      <div class="loader-text">Loading Portfolio</div>
+    </div>
+  </div>
+
+  <header class="header" id="header">
+    <div class="container nav">
+      <a href="#home" class="brand">
+        <span class="brand-dot"></span>
+        JML
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#about">Profile</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Works</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#seminars">Seminars</a>
+        <a href="#contact" class="nav-cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-img"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-grid-bg"></div>
+      <div class="hero-glow"></div>
+
+      <div class="container hero-content">
+        <div class="hero-tag">
+          <span class="hero-tag-dot"></span>
+          Computer Engineer · Systems Builder
+        </div>
+
+        <h1>John Mark<br /><span>B. Ladera</span></h1>
+
+        <div class="hero-role">
+          <span id="typedText"></span><span class="cursor">|</span>
+        </div>
+
+        <p>
+          I design and build modern web systems, automation tools, data workflows,
+          and technology-driven solutions for schools, organizations, and business operations.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="btn-primary">View Portfolio →</a>
+          <a href="#contact" class="btn-ghost">Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div>
+            <div class="sec-label">Profile</div>
+            <h2>Engineering practical systems with purpose.</h2>
+          </div>
+          <p class="sec-desc">
+            A Computer Engineer who bridges software development, IT operations, automation,
+            and data workflows into real systems for real users.
+          </p>
+        </div>
+
+        <div class="profile-grid">
+          <article class="profile-card reveal delay-1">
+            <div class="profile-num">01</div>
+            <h3>Software Development</h3>
+            <p>
+              Full-stack systems using Spring Boot, React, Flutter, .NET, JavaScript,
+              PostgreSQL, Firebase, and modern web technologies.
+            </p>
+            <div class="profile-icon">&lt;/&gt;</div>
+          </article>
+
+          <article class="profile-card reveal delay-2">
+            <div class="profile-num">02</div>
+            <h3>Systems & IT</h3>
+            <p>
+              Computer troubleshooting, network setup, registrar workflows, administrative systems,
+              database handling, and technical support operations.
+            </p>
+            <div class="profile-icon">⚙</div>
+          </article>
+
+          <article class="profile-card reveal delay-3">
+            <div class="profile-num">03</div>
+            <h3>Automation & Data</h3>
+            <p>
+              Excel automation, Power BI dashboards, Power Apps, Power Automate,
+              data cleaning, reporting, and workflow optimization.
+            </p>
+            <div class="profile-icon">◈</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="education" class="surface-section">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div>
+            <div class="sec-label">Education</div>
+            <h2>Academic foundation in engineering and discipline.</h2>
+          </div>
+          <p class="sec-desc">
+            Built through technical education, formation, and hands-on engineering practice from primary school to Computer Engineering.
+          </p>
+        </div>
+
+        <div class="timeline-list">
+          <div class="timeline-row reveal delay-1">
+            <div class="timeline-date">2026</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/ctu-logo.png" alt="Cebu Technological University Logo" /></div>
+              <div class="timeline-text">
+                <h3>Certification on Professional Education</h3>
+                <p>Cebu Technological University – Naga Campus<br />Naga City, Cebu, Philippines</p>
+                <span class="badge">CPE</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row reveal delay-2">
+            <div class="timeline-date">2021 – 2026</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/cit-logo.png" alt="Cebu Institute of Technology - University Logo" /></div>
+              <div class="timeline-text">
+                <h3>Bachelor of Science in Computer Engineering</h3>
+                <p>Cebu Institute of Technology – University<br />Cebu City, Philippines</p>
+                <span class="badge">BS CpE</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row reveal delay-3">
+            <div class="timeline-date">2014 – 2019</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/sms-boystown-logo.png" alt="Sisters of Mary School Boystown Logo" /></div>
+              <div class="timeline-text">
+                <h3>Junior High School & Senior High School</h3>
+                <p>Sisters of Mary School – Boystown, Inc.<br />Tungkop, Minglanilla, Cebu</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row reveal delay-4">
+            <div class="timeline-date">2007 – 2014</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/songco-logo.png" alt="Songco Elementary School Logo" /></div>
+              <div class="timeline-text">
+                <h3>Primary Education</h3>
+                <p>Songco Elementary School<br />Songco, Lantapan, Bukidnon</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div>
+            <div class="sec-label">Projects & Web Development</div>
+            <h2>Systems, web apps, and automation projects from my resume.</h2>
+          </div>
+          <p class="sec-desc">
+            These are the actual projects listed in my resume, including school administrative systems, food ordering development, and Xerox | Lexmark automation work.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+          <article class="project-card reveal delay-1">
+            <div>
+              <div class="project-num">Project 01</div>
+              <h3>ASMSI-Cebu Branch Administrative System</h3>
+              <p>
+                A solo project developed for ASMSI-Cebu Branch administrative operations from January 2025 to April 2025.
+              </p>
+            </div>
+            <div>
+              <div class="project-links">
+                <a href="https://asmsi-cebu.web.app/" target="_blank" rel="noopener noreferrer">asmsi-cebu.web.app</a>
+              </div>
+              <div class="chips" style="margin-top: 20px;">
+                <span class="chip">Solo Project</span>
+                <span class="chip">Admin System</span>
+                <span class="chip">Web App</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal delay-2">
+            <div>
+              <div class="project-num">Project 02</div>
+              <h3>WildBites Food Express</h3>
+              <p>
+                A food express web project completed as Project Lead and Full Stack Developer from August 2024 to December 2024.
+              </p>
+            </div>
+            <div>
+              <div class="project-links">
+                <a href="https://wildbitesfoodexpress-citu.web.app/" target="_blank" rel="noopener noreferrer">wildbitesfoodexpress-citu.web.app</a>
+              </div>
+              <div class="chips" style="margin-top: 20px;">
+                <span class="chip">Project Lead</span>
+                <span class="chip">Full Stack</span>
+                <span class="chip">Web App</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal delay-3">
+            <div>
+              <div class="project-num">Project 03</div>
+              <h3>Sisters of Mary Schools Administrative System</h3>
+              <p>
+                A full-stack administrative system for Sisters of Mary Schools, developed as Project Lead from January 2025 to April 2025.
+              </p>
+            </div>
+            <div>
+              <div class="project-links">
+                <a href="https://sistersofmaryschool.online/" target="_blank" rel="noopener noreferrer">sistersofmaryschool.online</a>
+                <a href="https://smsgirlstown.online/" target="_blank" rel="noopener noreferrer">smsgirlstown.online</a>
+                <a href="https://smsadlas.online/" target="_blank" rel="noopener noreferrer">smsadlas.online</a>
+              </div>
+              <div class="chips" style="margin-top: 20px;">
+                <span class="chip">Project Lead</span>
+                <span class="chip">Full Stack</span>
+                <span class="chip">School System</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal delay-4">
+            <div>
+              <div class="project-num">Project 04</div>
+              <h3>Xerox | Lexmark Quality Development Action Plan Automation</h3>
+              <p>
+                Quality Development Action Plan automation work completed during internship from June 3, 2025 to August 11, 2025.
+              </p>
+            </div>
+            <div class="chips">
+              <span class="chip">QDAP</span>
+              <span class="chip">Excel Automation</span>
+              <span class="chip">Power BI</span>
+              <span class="chip">Power Automate</span>
+              <span class="chip">Power Apps</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="surface-section">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div>
+            <div class="sec-label">Expertise</div>
+            <h2>Software, hardware, automation, and data.</h2>
+          </div>
+          <p class="sec-desc">
+            A technical profile built through hands-on academic projects, internships, system development, operations work, and classroom instruction.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-card reveal delay-1">
+            <div class="skill-label">Development</div>
+            <h3>Languages & Frameworks</h3>
+            <p>HTML, CSS, JavaScript, Java, C#, Python, SQL, React, Flutter, Thymeleaf, Spring Boot, Node.js, Express.js, and .NET.</p>
+          </article>
+
+          <article class="skill-card reveal delay-2">
+            <div class="skill-label">Data</div>
+            <h3>Databases & Reporting</h3>
+            <p>PostgreSQL, MySQL, MongoDB, Firebase, Microsoft Access, CSV management, data cleaning, dashboard preparation, and reporting workflows.</p>
+          </article>
+
+          <article class="skill-card reveal delay-3">
+            <div class="skill-label">Microsoft</div>
+            <h3>Microsoft 365 & Power Platform</h3>
+            <p>Microsoft Excel, Word, PowerPoint, Publisher, Outlook, Power BI, Power Apps, Power Automate, Microsoft Access, and Microsoft 365 productivity workflows.</p>
+          </article>
+
+          <article class="skill-card reveal delay-4">
+            <div class="skill-label">DevOps</div>
+            <h3>Version Control & Deployment</h3>
+            <p>Git, GitHub, Docker, Firebase Hosting, web deployment support, source control, project organization, and development workflow management.</p>
+          </article>
+
+          <article class="skill-card reveal delay-5">
+            <div class="skill-label">AI Tools</div>
+            <h3>AI & Automation Tools</h3>
+            <p>ChatGPT, Microsoft Copilot, DeepSeek, Claude, Gemini, prompt-assisted workflows, documentation support, automation planning, and content generation.</p>
+          </article>
+
+          <article class="skill-card reveal delay-6">
+            <div class="skill-label">Creative</div>
+            <h3>Design & Multimedia</h3>
+            <p>Adobe Photoshop, Canva, Figma, photography, graphic design, product mockups, visual editing, and presentation layout preparation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div>
+            <div class="sec-label">Experience</div>
+            <h2>From internships to operations and instruction.</h2>
+          </div>
+          <p class="sec-desc">
+            Professional exposure across IT automation, data transformation, administrative systems, marketing technology, teaching, and graphic operations.
+          </p>
+        </div>
+
+        <div class="timeline-list">
+          <div class="timeline-row reveal delay-1">
+            <div class="timeline-date">2026<br />Present</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/sms-girlstown-logo.png" alt="Sisters of Mary School Girlstown Logo" /></div>
+              <div class="timeline-text">
+                <h3>Sisters of Mary School – Girlstown, Inc.</h3>
+                <p>Data Analytics Instructor for Senior High School, supporting instructional matrix writing, assessment development, and teaching data analytics concepts.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row reveal delay-2">
+            <div class="timeline-date">2025</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/lexmark-logo.png" alt="Lexmark Logo" /></div>
+              <div class="timeline-text">
+                <h3>Xerox | Lexmark Research and Development Corp.</h3>
+                <p>QMS Internal Auditor Intern under Data Transformation Department. Worked with QDAP automation, Excel transformation, Power BI support, Microsoft Power Automate, and Power Apps.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row reveal delay-3">
+            <div class="timeline-date">2025<br />Present</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/sjn-jsm-logo.png" alt="Southern Jewelry News and Jewelry Store Marketers Logo" /></div>
+              <div class="timeline-text">
+                <h3>Jewelry Store Marketers / Southern Jewelry News</h3>
+                <p>Administrative Assistant handling GoHighLevel, Mailchimp, product databases, CSV cleanup, marketing automation, and platform management.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row reveal delay-4">
+            <div class="timeline-date">2022<br />Present</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/asmsi-logo.png" alt="ASMSI Cebu Logo" /></div>
+              <div class="timeline-text">
+                <h3>ASMSI-Cebu Branch</h3>
+                <p>Administrative Staff, Office IT, graphic artist, alumni ID maker, photographer, event organizer, and technical support for internal operations.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row reveal delay-5">
+            <div class="timeline-date">2021<br />Present</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/bodyvibe-logo.png" alt="Bodyvibe Trading Philippines Logo" /></div>
+              <div class="timeline-text">
+                <h3>Bodyvibe Trading Philippines</h3>
+                <p>Part-time graphic designer, clipper, polisher, and mockup artist supporting jewelry product visuals and image preparation.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row reveal delay-6">
+            <div class="timeline-date">2019<br />2021</div>
+            <div class="timeline-body">
+              <div class="logo-box"><img src="/images/sms-boystown-logo.png" alt="Sisters of Mary School Boystown Logo" /></div>
+              <div class="timeline-text">
+                <h3>Sisters of Mary School Boystown, Inc.</h3>
+                <p>Registrar operations, records management, data encoding, online class supervision, admissions support, IT assistance, and graphic design work.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="seminars" class="surface-section">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div>
+            <div class="sec-label">Seminars & Activities</div>
+            <h2>Learning exposure in algorithms, data engineering, and Power BI.</h2>
+          </div>
+          <p class="sec-desc">
+            These activities support my technical foundation in computer engineering, analytics, and business intelligence.
+          </p>
+        </div>
+
+        <div class="seminars-list">
+          <div class="seminar-item reveal delay-1">
+            <div class="seminar-title">
+              <h3>Analysis of Algorithms</h3>
+              <p>February 22, 2025</p>
+            </div>
+            <div class="seminar-speaker">
+              <p><strong>Speaker:</strong> Prof. Jay Vince Serato<br />CIT – U Faculty Member</p>
+            </div>
+          </div>
+
+          <div class="seminar-item reveal delay-2">
+            <div class="seminar-title">
+              <h3>Data Engineering Fundamentals with Excel and BI</h3>
+              <p>March 21, 2025</p>
+            </div>
+            <div class="seminar-speaker">
+              <p><strong>Speaker:</strong> Engr. Nicolen Evanz Aricayos<br />CIT – U Faculty Member</p>
+            </div>
+          </div>
+
+          <div class="seminar-item reveal delay-3">
+            <div class="seminar-title">
+              <h3>Career Boost with Power BI</h3>
+              <p>February 25, 2025</p>
+            </div>
+            <div class="seminar-speaker">
+              <p><strong>Trainer:</strong> Tarcisio de Oliveira Filho<br />Microsoft Certified Trainer – 156A82-A59BBT<br />Senior Power BI Consultant</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <div class="container contact-inner">
+        <div class="contact-copy reveal">
+          <div class="sec-label">Contact</div>
+          <h2>Let’s build something <span>real.</span></h2>
+          <p>
+            Open for job interviews, IT roles, software development opportunities,
+            automation projects, and systems engineering work.
+          </p>
+        </div>
+
+        <div class="contact-links reveal delay-1">
+          <a href="mailto:johnmarkladera28@gmail.com" class="contact-link">
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">johnmarkladera28@gmail.com</div>
+            </div>
+            <div class="contact-arrow">→</div>
+          </a>
+
+          <a href="tel:09564857467" class="contact-link">
+            <div>
+              <div class="contact-label">Phone</div>
+              <div class="contact-value">+63 956 485 7467</div>
+            </div>
+            <div class="contact-arrow">→</div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 John Mark B. Ladera. All rights reserved.</div>
+      <div class="footer-logo">JML ·</div>
+      <div class="footer-badge">Computer Engineer <span>·</span> Cebu, Philippines</div>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("loader").classList.add("hide");
+      }, 1400);
+    });
+
+    const header = document.getElementById("header");
+    window.addEventListener("scroll", () => {
+      header.classList.toggle("scrolled", window.scrollY > 60);
+    }, { passive: true });
+
+    const revealItems = document.querySelectorAll(".reveal");
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+
+    const navLinks = document.querySelectorAll(".nav-links a[href^='#']");
+    const sections = document.querySelectorAll("main section[id]");
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navLinks.forEach((link) => {
+            link.classList.toggle("active", link.getAttribute("href") === `#${entry.target.id}`);
+          });
+        }
+      });
+    }, { threshold: 0.45 });
+
+    sections.forEach((section) => navObserver.observe(section));
+
+    const roles = [
+      "Full Stack Developer",
+      "Computer Engineer",
+      "Systems Builder",
+      "Automation Specialist",
+      "Data Analytics Instructor"
+    ];
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    const typedText = document.getElementById("typedText");
+
+    function typeRole() {
+      const currentRole = roles[roleIndex];
+
+      if (!deleting) {
+        typedText.textContent = currentRole.slice(0, ++charIndex);
+        if (charIndex === currentRole.length) {
+          deleting = true;
+          setTimeout(typeRole, 1600);
+          return;
+        }
+      } else {
+        typedText.textContent = currentRole.slice(0, --charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+        }
+      }
+
+      setTimeout(typeRole, deleting ? 42 : 75);
+    }
+
+    setTimeout(typeRole, 1800);
+  </script>
+</body>
+</html>
